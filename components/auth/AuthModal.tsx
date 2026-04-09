@@ -59,7 +59,12 @@ export default function AuthModal({ onClose, onSuccess }: AuthModalProps) {
       if (mode === 'login') {
         await login(formData.email, formData.password)
       } else {
-        await register(formData.email, formData.password, formData.name, formData.role)
+        await register({
+          email: formData.email,
+          password: formData.password,
+          name: formData.name,
+          role: formData.role as 'customer' | 'vendor' | 'admin',
+        })
       }
       onSuccess?.()
     } catch (err) {
@@ -163,6 +168,7 @@ export default function AuthModal({ onClose, onSuccess }: AuthModalProps) {
                 <label className="block text-sm font-medium mb-2">Account Type</label>
                 <select
                   name="role"
+                  aria-label="Account Type"
                   value={formData.role}
                   onChange={handleChange}
                   className="w-full px-3 py-2 border border-input rounded-md bg-background"

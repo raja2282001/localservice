@@ -24,17 +24,17 @@ export function useApi<T = any>(
       setState({ data: null, isLoading: true, error: null })
 
       try {
-        const headers: HeadersInit = {
+        const headers: Record<string, string> = {
           'Content-Type': 'application/json',
-          ...options.headers,
+          ...(options.headers as Record<string, string>),
         }
 
         if (options.token) {
-          headers['Authorization'] = `Bearer ${options.token}`
+          headers.Authorization = `Bearer ${options.token}`
         } else if (typeof window !== 'undefined') {
           const token = localStorage.getItem('auth_token')
           if (token) {
-            headers['Authorization'] = `Bearer ${token}`
+            headers.Authorization = `Bearer ${token}`
           }
         }
 
